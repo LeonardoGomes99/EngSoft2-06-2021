@@ -28,7 +28,7 @@
   </tr>
 </table>
 
-## How to run the application:
+## Como rodar a Aplicação?  :
 
 1) Entrar na Pasta do Laradock
 2) copiar o arquivo <b>.env.example</b> e colar com o nome <b>.env</b>
