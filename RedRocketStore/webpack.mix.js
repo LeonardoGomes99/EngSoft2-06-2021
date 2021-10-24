@@ -1,4 +1,7 @@
 const mix = require('laravel-mix');
+const crypto = require("crypto");
+const crypto_orig_createHash = crypto.createHash;
+crypto.createHash = algorithm => crypto_orig_createHash(algorithm == "md4" ? "sha256" : algorithm);
 
 /*
  |--------------------------------------------------------------------------
@@ -13,5 +16,8 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/app.js', 'public/js')
     .postCss('resources/css/app.css', 'public/css', [
-        //
+        require('tailwindcss'),
+        require('autoprefixer')
     ]);
+
+
