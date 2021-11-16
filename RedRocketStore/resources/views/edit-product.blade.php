@@ -20,7 +20,7 @@
             <x-form.button alignment="place-self-start">Adicionar</x-form.button>
             <x-form.button :background="'bg-red-500'" :hover="'bg-red-600'">Excluir</x-form.button>
             <x-form.field alignment="place-self-end">
-                <x-fake-button link="'../dashboard'">Cancelar</x-fake-button>
+                <x-click-actions.fake-button :href="route('index')">Cancelar</x-click-actions.fake-button>
             </x-form.field>
         </div>
     </form>

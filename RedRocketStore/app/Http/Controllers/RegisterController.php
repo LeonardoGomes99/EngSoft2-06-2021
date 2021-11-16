@@ -23,8 +23,8 @@ class RegisterController extends Controller
             'job' => 'required',
         ]);
 
+        ddd($attributes);
         auth()->login(User::create($attributes));
-
         return redirect(route('index'))->with('success', 'A conta foi criada com sucesso.');
     }
 

@@ -1,4 +1,5 @@
 <x-header :search="false" />
+
 <x-setting :border="'border-0'">
     <form method="POST" action="{{ route('login') }}" enctype="multipart/form-data">
         @csrf

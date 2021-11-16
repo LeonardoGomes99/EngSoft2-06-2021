@@ -18,12 +18,13 @@ use App\Http\Controllers\ProductController;
 
 Route::get('/', [GeneralController::class, 'index'])->name('index');
 Route::get('/{page}', [GeneralController::class, 'show'])->middleware('auth');
+
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('edit-product')->middleware('auth');
+Route::get('/register/create-product', [ProductController::class, 'create'])->name('create-product')->middleware('auth');
 
 Route::get('register/{create}', [RegisterController::class, 'show'])->middleware('auth');
-
-Route::get('register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
-Route::post('register', [RegisterController::class, 'store'])->middleware('guest');
+Route::get('register', [RegisterController::class, 'create'])->middleware('admin')->name('register');
+Route::post('register', [RegisterController::class, 'store'])->middleware('admin');
 
 Route::get('login', [SessionsController::class, 'create'])->middleware('guest')->name('login');
 Route::post('login', [SessionsController::class, 'store'])->middleware('guest');

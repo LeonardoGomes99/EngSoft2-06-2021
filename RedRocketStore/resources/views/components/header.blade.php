@@ -30,7 +30,7 @@
             @if ($search == true)
                 <x-search-box :placeholder="'Pesquise produtos. Ex: ps9 cinza'" />
             @else
-                <span> RedRocketStore - Gerenciamento de Estoque</span>
+                <span> RedRocketStore - Controle de Estoque</span>
             @endif
 
         </div>
@@ -39,42 +39,41 @@
         <div class="relative flex items-center space-x-3">
 
             <div class="items-center hidden space-x-3 md:flex">
-
                 <!-- Options -->
-                <x-dropdown-button :name="'Opções'">
+                <x-click-actions.dropdown-button :name="'Opções'">
                     <x-slot name="icon">
                         <x-default-svg class="w-6 h-6"
                             :d="'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4'" />
                     </x-slot>
 
-                    <x-dropdown :title="'Opções'">
-                        <x-dropdown-item :name="'Link'" />
-                        <x-dropdown-item :name="'Link 2'" />
-                    </x-dropdown>
+                    <x-click-actions.dropdown :title="'Opções'">
+                        <x-click-actions.dropdown-item :name="'Link'" />
+                        <x-click-actions.dropdown-item :name="'Link 2'" />
+                    </x-click-actions.dropdown>
 
-                </x-dropdown-button>
+                </x-click-actions.dropdown-button>
             </div>
 
             @auth
                 <!-- user avatar -->
                 <div class="relative" x-data="{ isOpen: false }">
-                    <x-dropdown-button>
+                    <x-click-actions.dropdown-button>
                         <x-slot name="icon">
                             <img class="object-cover w-8 h-8 rounded-full"
                                 src="https://www.pngkey.com/png/full/263-2635979_admin-abuse.png" alt="Usuário" />
                         </x-slot>
 
-                        <x-dropdown :title="'Opções'">
-                            <x-dropdown-item :name="auth()->user()->name" :nolink="true" />
-                            <x-dropdown-item :name="auth()->user()->email" :nolink="true" />
-                            <x-dropdown-item href="#" x-data="{}"
+                        <x-click-actions.dropdown :title="'Opções'">
+                            <x-click-actions.dropdown-item :name="auth()->user()->name" :nolink="true" />
+                            <x-click-actions.dropdown-item :name="auth()->user()->email" :nolink="true" />
+                            <x-click-actions.dropdown-item href="#" x-data="{}"
                                 @click.prevent="document.querySelector('#logout-form').submit()" :name="'Logout'"
                                 :color="'bg-blue-500 bg-blue-400'" class="rounded-none text-white" />
-                        </x-dropdown>
+                        </x-click-actions.dropdown>
                         <form id="logout-form" method="POST" action="{{ route('logout') }}" class="hidden">
                             @csrf
                         </form>
-                    </x-dropdown-button>
+                    </x-click-actions.dropdown-button>
                 </div>
             @endauth
         </div>

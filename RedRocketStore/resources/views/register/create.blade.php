@@ -1,5 +1,8 @@
 <x-header :search="'false'" />
 <x-setting :border="'border-0'">
+    @php
+        ddd(route('register'));
+    @endphp
     <form method="POST" action="{{ route('register')}}" enctype="multipart/form-data">
         @csrf
 
