@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,11 +22,19 @@ Route::post('/authenticatedLogin', [HomeController::class, 'authenticatedLogin']
 
 Route::get('/dashboard', [HomeController::class, 'dashboard']);
 
-Route::get('/create-product', [HomeController::class, 'createProduct']);
+Route::get('/create-product', [ProductsController::class, 'createProduct']);
 
-Route::get('/products', [HomeController::class, 'productsAll']);
+Route::get('/products', [ProductsController::class, 'productsAll']);
 
-Route::post('/store', [HomeController::class, 'storeProduct']);
+Route::post('/store', [ProductsController::class, 'storeProduct']);
+
+Route::get('/edit/{id}', [ProductsController::class, 'edit']);
+
+Route::post('/edit/{id}/update', [ProductsController::class, 'editStore']);
+
+
+Route::post('/delete', [ProductsController::class, 'removeProduct']);
+
 
 
 

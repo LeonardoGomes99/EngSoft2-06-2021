@@ -54,7 +54,13 @@
                         </th>  
         <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                             Cor
-                        </th>            
+                        </th> 
+        <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                            Editar
+                        </th>   
+        <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                            Remover
+                        </th>        
           </tr>
         </thead>
         <tbody>
@@ -78,6 +84,12 @@
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
               {{ $products->color }}
             </td>
+            <td id="editProduct" class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+            <a href={{ '/edit/'.$products->id }} >Editar</a>
+            </td>
+            <td id="removeProduct" class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+            <button id={{ $products->id }}>Remover</button>
+            </td>
           </tr>
           @endforeach  
         </tbody>
@@ -89,3 +101,63 @@
 </section>
 </body>
 </html>
+
+
+<script>
+
+$( "#removeProduct button" ).click(function() {
+  var id = $(this).attr("id");
+  RemoveProduct(id);
+});
+
+$( "#editProduct button" ).click(function() {
+  var id = $(this).attr("id");
+  EditProduct(id);
+});
+
+function RemoveProduct(id){
+  $.ajax({
+    type:'POST',
+    url:'/delete',
+    dataType: 'JSON',
+    data: {
+      'id':id
+    },  
+    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+    success:function(data){
+      Reload();
+    },
+    error:function(data){
+      alert(data['responseJSON']['message']);
+    }
+  });
+}
+
+function EditProduct(id){
+  $.ajax({
+    type:'POST',
+    url:'/edit/'+id,
+    dataType: 'JSON',
+    data: {
+      'id':id
+    },  
+    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+    success:function(data){
+      Redirect(id);
+    },
+    error:function(data){
+      alert("Erro no sistema");
+    }
+  });
+}
+
+function Redirect(id){
+  window.location = '/edit/'+id;
+}
+
+function Reload(){
+  window.location.reload();
+}
+
+  
+</script>

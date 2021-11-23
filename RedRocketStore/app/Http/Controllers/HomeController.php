@@ -31,30 +31,13 @@ class HomeController extends Controller
     }
 
     public function dashboard(){
-        return view('dashboard');
-    }
-
-    public function createProduct(){
-        return view('create_product');
-    }
-
-    public function storeProduct(Request $request){
-        $this->Products->name = $request->nome;
-        $this->Products->description = $request->desc;
-        $this->Products->quantity = $request->qnt;
-        $this->Products->model = $request->model;
-        $this->Products->serial_number = $request->serial;
-        $this->Products->color = $request->cor;
-        $this->Products->save();
-        return response()->json(['message' => '/dashboard'], 200);
-
-    }
-
-    public function productsAll(){
         $products = $this->Products::all();
-        return view('products', [
-            'productsData' => $products,
-        ]);
+        $users = $this->Users::all();
 
+        return view('dashboard', [
+            'productsData' => $products,
+            'users' => $users,
+        ]);
     }
+
 }
