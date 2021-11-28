@@ -23,7 +23,7 @@ class HomeController extends Controller
         $checkLogin = $this->Users::WHERE(['email' => ($request->email), 'password' => ($request->pass) ])->get();
         
         if(!$checkLogin->count()){
-            return response()->json(['message' => 'Login Invalido'], 500);
+            return response()->json(['message' => 'Login Invalido'], 400);
         }else{
             return response()->json(['message' => '/dashboard'], 200);
         }

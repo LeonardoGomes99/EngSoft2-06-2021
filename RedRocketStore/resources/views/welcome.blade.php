@@ -37,11 +37,11 @@
             <div id="formLogin" class="flex flex-col" >
                 <div class="mb-6 pt-3 rounded bg-gray-200">
                     <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="email">Email</label>
-                    <input type="text" id="emailForm" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-gray-600 transition duration-500 px-3 pb-3" required>
+                    <input type="email" name="email" id="emailForm" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-gray-600 transition duration-500 px-3 pb-3" required>
                 </div>
                 <div class="mb-6 pt-3 rounded bg-gray-200">
                     <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="password">Senha</label>
-                    <input type="password" id="passwordForm" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-gray-600 transition duration-500 px-3 pb-3" required>
+                    <input type="password" name="password" id="passwordForm" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-gray-600 transition duration-500 px-3 pb-3" required>
                 </div>
                 <div class="flex justify-end">
                     <a href="#" class="text-sm text-red-600 hover:text-red-700 hover:underline mb-6">Esqueceu sua Senha?</a>
@@ -84,7 +84,8 @@ function Send(email,pass){
     },
     error:function(data){
       alert(data['responseJSON']['message']);
-    }
+    },
+    async:false,
   });
 }
 
