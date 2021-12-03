@@ -14,6 +14,11 @@ class ProductsController extends Controller
     }
 
     public function createProduct(){
+        $checkLogin = $this->checkSession();
+        if($checkLogin == "logout"){
+            return redirect('/');   
+        }
+
         return view('create_product');
     }
 
@@ -40,6 +45,11 @@ class ProductsController extends Controller
 
     public function edit(Request $request){
 
+        $checkLogin = $this->checkSession();
+        if($checkLogin == "logout"){
+            return redirect('/');   
+        }
+
         $productEdit = $this->Products->where('id', $request->id)->get();
         return view('edit_product', [
             'productsData' => $productEdit,
@@ -58,7 +68,7 @@ class ProductsController extends Controller
             'serial_number' =>  $request->serial,
             'color' =>  $request->cor
             ]);
-        return response()->json(['message' => '/products'], 200);
+        return response()->json(['message' => '/dashboard'], 200);
 
 
                 
@@ -67,5 +77,11 @@ class ProductsController extends Controller
     public function removeProduct(Request $request){
         $this->Products->where('id', $request->id)->delete();
         return response()->json(['message' => '/dashboard'], 200);
+    }
+
+    public function checkSession(){
+        if(session()->get('userinfo')[0]['email'] == null){
+           return "logout";  
+        }
     }
 }

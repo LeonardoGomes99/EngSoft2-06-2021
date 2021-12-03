@@ -25,19 +25,39 @@ class HomeController extends Controller
         if(!$checkLogin->count()){
             return response()->json(['message' => 'Login Invalido'], 400);
         }else{
+            $request->session()->put('userinfo', $checkLogin);
             return response()->json(['message' => '/dashboard'], 200);
         }
 
     }
 
+    public function logout(){
+        session()->forget('userinfo');
+        session()->flush();
+        return redirect('/');  
+    }
+
     public function dashboard(){
+
+        $checkLogin = $this->checkSession();
+        if($checkLogin == "logout"){
+            return redirect('/');   
+        }
+
         $products = $this->Products::all();
         $users = $this->Users::all();
 
         return view('dashboard', [
             'productsData' => $products,
             'users' => $users,
+            'session_user' => (session()->get('userinfo')[0]),
         ]);
+    }
+
+    public function checkSession(){
+        if(session()->get('userinfo')[0]['email'] == null){
+           return "logout";  
+        }
     }
 
 }

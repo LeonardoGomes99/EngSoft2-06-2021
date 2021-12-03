@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\UserController;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -24,11 +26,17 @@ Route::post('/authenticatedLogin', [HomeController::class, 'authenticatedLogin']
 
 Route::get('/dashboard', [HomeController::class, 'dashboard']);
 
+Route::get('/logout', [HomeController::class, 'logout']);
+
 Route::get('/create-product', [ProductsController::class, 'createProduct']);
 
 Route::get('/products', [ProductsController::class, 'productsAll']);
 
 Route::post('/store', [ProductsController::class, 'storeProduct']);
+
+Route::get('/create-employee', [UserController::class, 'index']);
+
+Route::post('/store-user',[UserController::class, 'storeUser']);
 
 Route::get('/edit/{id}', [ProductsController::class, 'edit']);
 
