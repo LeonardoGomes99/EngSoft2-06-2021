@@ -42,8 +42,11 @@ Route::get('/edit/{id}', [ProductsController::class, 'edit']);
 
 Route::post('/edit/{id}/update', [ProductsController::class, 'editStore']);
 
+Route::get('/exportSalesData', [ProductsController::class, 'ExportData']);
 
 Route::post('/delete', [ProductsController::class, 'removeProduct']);
+
+Route::get('/simulateSells', [ProductsController::class, 'simulateSells']);
 
 
 

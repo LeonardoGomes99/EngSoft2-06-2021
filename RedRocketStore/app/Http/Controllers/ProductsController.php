@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Products;
+use App\Models\Sales;
+use App\Exports\salesReport;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class ProductsController extends Controller
 {
-    public function __construct(Products $Products)
+    public function __construct(Products $Products, Sales $Sales)
     {
         $this->Products = $Products;
+        $this->Sales = $Sales;
     }
 
     public function createProduct(){
@@ -77,6 +81,26 @@ class ProductsController extends Controller
     public function removeProduct(Request $request){
         $this->Products->where('id', $request->id)->delete();
         return response()->json(['message' => '/dashboard'], 200);
+    }
+
+    public function ExportData(){
+        return \Excel::download(new salesReport, 'vendas.xlsx');
+    }
+
+    public function simulateSells(){
+        $names = array("Joseff", "Keanu Reeves" , "Andrew" , "York Rasuff" , "Indiana Jones");
+        
+        ($names[array_rand($names)]);
+
+
+        $this->Sales->qtd = ($names[array_rand($names)]);
+        $this->Sales->product = ($names[array_rand($names)]);
+        $this->Sales->salesman = ($names[array_rand($names)]);
+        $this->Sales->uni_product_price = ($names[array_rand($names)]);
+        $this->Sales->total_amount_price = ($names[array_rand($names)]);
+        $this->Sales->sale_date = ($names[array_rand($names)]);
+        $this->Sales->save();
+
     }
 
     public function checkSession(){
