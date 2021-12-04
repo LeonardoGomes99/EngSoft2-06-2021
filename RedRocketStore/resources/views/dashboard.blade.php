@@ -6,6 +6,8 @@
     <title>Dashboard</title>
     <meta name="author" content="David Grzyb">
     <meta name="description" content="">
+    <link rel="shortcut icon" href="{{ asset('images/logo.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
 
     <!-- Tailwind -->
     <link href="https://unpkg.com/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
@@ -218,7 +220,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button id="getValuesToRestock" type="button" class="btn btn-primary">Salvar Alterações</button>
+            <button  id="getValuesToRestock" type="button" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200 w-24 md:w-auto "> Salvar Alterações </button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
         </div>
         </div>
@@ -238,6 +240,19 @@
 <style>
 nav{
     cursor: pointer;
+}
+
+#getValuesToRestock{
+    width: 160px;
+}
+
+a{
+    margin-left: 3%;
+    margin-right: 3%;
+}
+
+.active-nav-link{
+    background: none;
 }
 </style>
 <script>
