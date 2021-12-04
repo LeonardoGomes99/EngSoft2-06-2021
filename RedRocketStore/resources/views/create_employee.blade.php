@@ -11,6 +11,8 @@
     <link href="https://unpkg.com/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
     <style>
         /* .body-bg {
@@ -55,8 +57,11 @@
                     <input type="text" id="email" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-gray-600 transition duration-500 px-3 pb-3" required>
                 </div>
                 <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="email">Cargo</label>
-                <div class="mb-6 pt-3 rounded bg-gray-200">
-                    <input type="text" id="cargo" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-gray-600 transition duration-500 px-3 pb-3" required>
+                <div class="mb-12 pt-6 rounded">
+                    <select class="form-select form-select-sm" id="select-role" name="select">
+                        <option value="manager">Gerente</option>
+                        <option value="employee">Funcionário</option>
+                    </select>
                 </div>
                 <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="email">Senha</label>
                 <div class="mb-6 pt-3 rounded bg-gray-200">
@@ -85,7 +90,7 @@ $( "#cadastrar" ).click(function() {
   var dataNasc = $('#dataNasc').val();
   var genero = $('#genero').val();
   var email = $('#email').val();
-  var cargo = $('#cargo').val();
+  var cargo = $('#select-role').find(":selected").val();
   var senha = $('#senha').val();
 
   StoreUser(nome, cpf, dataNasc, genero, email, cargo, senha);
