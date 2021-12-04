@@ -47,7 +47,7 @@
                 <i class="fas fa-plus mr-3"></i> Baixar Relatório
             </button>
         </div>
-        @if( $session_user['job'] == 'employee' || $session_user['job'] == 'manager' )         
+        @if( $session_user['job'] == 'employee' || $session_user['job'] == 'manager' || $session_user['job'] == 'admin' )         
             <nav class="text-white text-base font-semibold pt-3">
                 <a href="/create-product" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
                     <i class="fas fa-tachometer-alt mr-3"></i>
@@ -63,7 +63,7 @@
                 </a>
             </nav>                
         @endif
-        @if( $session_user['job'] == 'employee' || $session_user['job'] == 'manager' )         
+        @if( $session_user['job'] == 'employee' || $session_user['job'] == 'manager' || $session_user['job'] == 'admin' )         
             <nav class="text-white text-base font-semibold pt-3">
                 <a id="ReestoqueItems" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
                     <i class="fas fa-tachometer-alt mr-3"></i>
@@ -99,14 +99,14 @@
                     <i class="fas fa-tachometer-alt mr-3"></i>
                     Dashboard
                 </a>
-                @if( $session_user['job'] == 'employee' || $session_user['job'] == 'manager' )         
+                @if( $session_user['job'] == 'employee' || $session_user['job'] == 'manager' || $session_user['job'] == 'admin' )         
                 <a href="/create-product" class="flex items-center text-white opacity-75">
                     <i class="fas fa-sticky-note mr-3"></i>
                     Cadastrar Produto
                 </a>                
                 @endif
 
-                @if( $session_user['job'] == 'employee' || $session_user['job'] == 'manager' )         
+                @if( $session_user['job'] == 'employee' || $session_user['job'] == 'manager' || $session_user['job'] == 'admin' )         
                 <a href="/create-employee" class="flex items-center text-white opacity-75">
                     <i class="fas fa-sticky-note mr-3"></i>
                     Reestocar Produto(s)
