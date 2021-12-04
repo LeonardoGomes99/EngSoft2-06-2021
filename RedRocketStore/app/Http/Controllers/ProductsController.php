@@ -121,4 +121,20 @@ class ProductsController extends Controller
            return "logout";  
         }
     }
+
+    public function restockProducts(Request $request){
+
+        $actualQuantity = $this->Products->where('id', $request->id)->first();
+
+        $this->Products
+        ->where('id', $request->id)
+        ->update(
+            [
+            'quantity' =>  $actualQuantity->quantity + $request->qtd
+            ]
+        );
+
+        return response()->json(['message' => '/dashboard'], 200);
+
+    }
 }

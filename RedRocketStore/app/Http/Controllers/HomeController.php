@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Users;
 use App\Models\Products;
+use App\Models\Sales;
 
 class HomeController extends Controller
 {
-    public function __construct(Users $Users, Products $Products)
+    public function __construct(Users $Users, Products $Products, Sales $Sales)
     {
         $this->Users = $Users;
         $this->Products = $Products;
+        $this->Sales = $Sales;
     }
 
     public function index()
@@ -46,11 +48,15 @@ class HomeController extends Controller
 
         $products = $this->Products::all();
         $users = $this->Users::all();
+        $amount_earned = $this->Sales->sum('total_amount_price');
+
+        $amount_earned = number_format($amount_earned, 2, '.', '');
 
         return view('dashboard', [
             'productsData' => $products,
             'users' => $users,
             'session_user' => (session()->get('userinfo')[0]),
+            'amount_earned' => $amount_earned,
         ]);
     }
 

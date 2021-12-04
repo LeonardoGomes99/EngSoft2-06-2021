@@ -27,6 +27,9 @@
     <script src="/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="/datatables.min.css">
     <script src="/datatables.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
 
@@ -60,10 +63,18 @@
                 </a>
             </nav>                
         @endif
+        @if( $session_user['job'] == 'employee' || $session_user['job'] == 'manager' )         
+            <nav class="text-white text-base font-semibold pt-3">
+                <a id="ReestoqueItems" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
+                    <i class="fas fa-tachometer-alt mr-3"></i>
+                    Reestocar Produto(s)
+                </a>
+            </nav>                
+        @endif
         <nav class="text-white text-base font-semibold pt-3">
             <a href="/logout" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
                 <i class="fas fa-tachometer-alt mr-3"></i>
-                Log Out
+                Sair
             </a>
         </nav>
     </aside>
@@ -95,17 +106,26 @@
                 </a>                
                 @endif
 
+                @if( $session_user['job'] == 'employee' || $session_user['job'] == 'manager' )         
+                <a href="/create-employee" class="flex items-center text-white opacity-75">
+                    <i class="fas fa-sticky-note mr-3"></i>
+                    Reestocar Produto(s)
+                </a>
+                @endif
+
                 @if( $session_user['job'] == 'admin' || $session_user['job'] == 'manager' )         
                 <a href="/create-employee" class="flex items-center text-white opacity-75">
                     <i class="fas fa-sticky-note mr-3"></i>
                     Cadastrar Funcionário
                 </a>
                 @endif
+                
 
                 <a href="/logout" class="flex items-center text-white opacity-75">
                     <i class="fas fa-sticky-note mr-3"></i>
-                    Log Out
+                    Sair
                 </a>
+                
             </nav>
             <!-- <button class="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
                 <i class="fas fa-plus mr-3"></i> New Report
@@ -124,7 +144,7 @@
                                     <div class="rounded-full p-5 bg-yellow-600"><i class="fas fa-user-plus fa-2x fa-inverse"></i></div>
                                 </div>
                                 <div class="flex-1 text-right md:text-center">
-                                    <h5 class="font-bold uppercase text-gray-600">Funcionários</h5>
+                                    <h5 class="font-bold uppercase text-gray-600">Usuários</h5>
                                     <h3 class="font-bold text-3xl"> {{ count($users) }} <span class="text-yellow-600"><i class="fas fa-caret-up"></i></span></h3>
                                 </div>
                             </div>
@@ -154,7 +174,7 @@
                             </div>
                             <div class="flex-1 text-right md:text-center">
                                 <h5 class="font-bold uppercase text-gray-600">Total Vendido</h5>
-                                <h3 class="font-bold text-3xl">$3249 <span class="text-green-500"><i class="fas fa-caret-up"></i></span></h3>
+                                <h3 class="font-bold text-3xl">R${{ $amount_earned }} <span class="text-green-500"><i class="fas fa-caret-up"></i></span></h3>
                             </div>
                         </div>
                     </div>
@@ -164,9 +184,9 @@
     
                 <div class="w-full mt-12">
                     <p class="text-xl pb-3 flex items-center">
-                        <i class="fas fa-list mr-3"></i> Latest Reports
+                        <i class="fas fa-list mr-3"></i> Produtos
                     </p>
-                    <div class="bg-white overflow-auto">
+                    <div>
                         @include('products')
                     </div>
                 </div>
@@ -174,93 +194,54 @@
         </div>
     </div>
 
+    <div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Reestocar Produtos</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="products">Qual Produto Deseja Reestocar ? </label>
+                <br>
+                <select id="product-name" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                    @foreach ($productsData as $product)
+                        <option value="{{ $product->id }}">{{ $product->name }}</option>
+                    @endforeach                    
+                </select>
+                <br>
+                <label for="products">Qual o Numero que irá ser reestocado ? </label>
+                <input id="product-restock-number" type="number" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button id="getValuesToRestock" type="button" class="btn btn-primary">Salvar Alterações</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        </div>
+        </div>
+    </div>
+    </div>  
+
+
+
     <!-- AlpineJS -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     <!-- Font Awesome -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
     <!-- ChartJS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
-
-    <script>
-        var chartOne = document.getElementById('chartOne');
-        var myChart = new Chart(chartOne, {
-            type: 'bar',
-            data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
-
-        var chartTwo = document.getElementById('chartTwo');
-        var myLineChart = new Chart(chartTwo, {
-            type: 'line',
-            data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
-    </script>
 </body>
 </html>
+<style>
+nav{
+    cursor: pointer;
+}
+</style>
 <script>
+
 function simulateSell(id,qtd,salesman){
   $.ajax({
     type:'POST',
@@ -278,4 +259,29 @@ function simulateSell(id,qtd,salesman){
     }
   });
 }
+
+$('#ReestoqueItems').click(function(){
+    $('.modal').modal('show');
+})
+
+$('#getValuesToRestock').click(function(){
+    var product_id = $('#product-name').find(":selected").val();
+    var product_restock_number = $('#product-restock-number').val();
+    $.ajax({
+    type:'POST',
+    url:'restock_products',
+    dataType: 'JSON',
+    data: {
+      'id':product_id,
+      'qtd':product_restock_number,
+    },  
+    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+    success:function(data){
+        window.location.reload();
+    },
+    error:function(data){
+    }
+  });
+})
+
 </script>

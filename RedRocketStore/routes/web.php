@@ -48,6 +48,8 @@ Route::post('/delete', [ProductsController::class, 'removeProduct']);
 
 Route::post('/simulateSells', [ProductsController::class, 'simulateSells']);
 
+Route::post('/restock_products',[ProductsController::class, 'restockProducts']);
+
 
 
 
