@@ -87,20 +87,37 @@ class ProductsController extends Controller
         return \Excel::download(new salesReport, 'vendas.xlsx');
     }
 
-    public function simulateSells(){
-        $names = array("Joseff", "Keanu Reeves" , "Andrew" , "York Rasuff" , "Indiana Jones");
-        
-        ($names[array_rand($names)]);
+    public function simulateSells(Request $request){
 
+        $actualQuantity = $this->Products->where('id', $request->id)->first();
 
-        $this->Sales->qtd = ($names[array_rand($names)]);
-        $this->Sales->product = ($names[array_rand($names)]);
-        $this->Sales->salesman = ($names[array_rand($names)]);
-        $this->Sales->uni_product_price = ($names[array_rand($names)]);
-        $this->Sales->total_amount_price = ($names[array_rand($names)]);
-        $this->Sales->sale_date = ($names[array_rand($names)]);
+        $mytime = \Carbon\Carbon::now();
+        $mytime->toDateTimeString();
+
+        $this->Sales->qtd = $request->qtd;
+        $this->Sales->product = $actualQuantity->name;
+        $this->Sales->salesman = $request->salesman;
+        $this->Sales->uni_product_price = $actualQuantity->price;
+        $this->Sales->total_amount_price = $request->qtd * $actualQuantity->price;
+        $this->Sales->sale_date = $mytime;
         $this->Sales->save();
 
+
+
+        $this->Products
+        ->where('id', $request->id)
+        ->update(
+            [
+            'quantity' =>  $actualQuantity->quantity - $request->qtd
+            ]
+        );
+
+        return response()->json(['message' => '/dashboard'], 200);
+
+    }
+
+    public function getToken(){
+        
     }
 
     public function checkSession(){

@@ -27,6 +27,8 @@
     <script src="/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="/datatables.min.css">
     <script src="/datatables.min.js"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+
 
     <script src="/dataTables.bootstrap5.min.js"></script>
     <link rel="stylesheet" src="/bootstrap.min.css">
@@ -38,7 +40,7 @@
     <aside class="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
         <div class="p-6">
             <a class="text-white text-3xl font-semibold uppercase hover:text-gray-300">{{ $session_user['job'] }}</a>
-            <button class="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
+            <button onclick="location.href='/exportSalesData';" class="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
                 <i class="fas fa-plus mr-3"></i> Baixar Relatório
             </button>
         </div>
@@ -258,3 +260,22 @@
     </script>
 </body>
 </html>
+<script>
+function simulateSell(id,qtd,salesman){
+  $.ajax({
+    type:'POST',
+    url:'simulateSells',
+    dataType: 'JSON',
+    data: {
+      'id':id,
+      'qtd':qtd,
+      'salesman' : salesman,
+    },  
+    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+    success:function(data){
+    },
+    error:function(data){
+    }
+  });
+}
+</script>

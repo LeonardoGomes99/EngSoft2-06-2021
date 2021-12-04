@@ -9,6 +9,9 @@ class Sales extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
+
     protected $fillable = [
         'qtd',
         'product',

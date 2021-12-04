@@ -22,6 +22,8 @@ Auth::routes();
 
 Route::get('/', [HomeController::class, 'index']);
 
+Route::get('/getToken', [HomeController::class, 'getToken']);
+
 Route::post('/authenticatedLogin', [HomeController::class, 'authenticatedLogin']);
 
 Route::get('/dashboard', [HomeController::class, 'dashboard']);
@@ -46,7 +48,7 @@ Route::get('/exportSalesData', [ProductsController::class, 'ExportData']);
 
 Route::post('/delete', [ProductsController::class, 'removeProduct']);
 
-Route::get('/simulateSells', [ProductsController::class, 'simulateSells']);
+Route::post('/simulateSells', [ProductsController::class, 'simulateSells']);
 
 
 
