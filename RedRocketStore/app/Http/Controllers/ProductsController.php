@@ -116,10 +116,6 @@ class ProductsController extends Controller
 
     }
 
-    public function getToken(){
-        
-    }
-
     public function checkSession(){
         if(session()->get('userinfo')[0]['email'] == null){
            return "logout";  

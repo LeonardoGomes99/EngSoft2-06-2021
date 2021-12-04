@@ -22,8 +22,6 @@ Auth::routes();
 
 Route::get('/', [HomeController::class, 'index']);
 
-Route::get('/getToken', [HomeController::class, 'getToken']);
-
 Route::post('/authenticatedLogin', [HomeController::class, 'authenticatedLogin']);
 
 Route::get('/dashboard', [HomeController::class, 'dashboard']);
