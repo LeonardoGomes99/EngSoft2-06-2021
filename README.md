@@ -1,5 +1,5 @@
 # Projeto De Engenharia de Software 2021/06
-![header](https://user-images.githubusercontent.com/38620899/106385660-2de04b00-63b0-11eb-9747-843cdc397c76.PNG)
+<!-- ![header](https://user-images.githubusercontent.com/38620899/106385660-2de04b00-63b0-11eb-9747-843cdc397c76.PNG) -->
 
 > Status: Em Desenvolvimento ⚠️
 
